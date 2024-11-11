@@ -1,0 +1,40 @@
+```mermaid
+%%{init: {'themeVariables': { 'primaryColor': '#6b46c1', 'edgeLabelBackground':'#ffffff'}}}%%
+graph LR
+    User([User])
+    Admin([Admin])
+    Dosen([Dosen])
+    Start[Start]
+    CheckAuth["Check User Authentication and Role"]
+    AdminDashboard["Admin Dashboard"]
+    DosenDashboard["Dosen Dashboard"]
+    AddUserForm["Add User Form"]
+    DeleteUserForm["Delete User Form"]
+    RedirectAdminSuccess["Redirect with Success Message (User Added)"]
+    DeleteUserLogic["Delete User Logic"]
+    RedirectAdminDeleteSuccess["Redirect with Success Message (User Deleted)"]
+    InputUpdateNilaiForm["Input/Update Nilai Form"]
+    RedirectDosenSuccess["Redirect to Dosen Dashboard with Success Message"]
+    DisplayModal["Display Modal with Message"]
+
+    User -->|Access page| CheckAuth
+    CheckAuth -->|Role = Admin| Admin
+    CheckAuth -->|Role = Dosen| Dosen
+    CheckAuth -->|Role Invalid| User
+
+    Admin -->|Access Dashboard| AdminDashboard
+    Dosen -->|Access Dashboard| DosenDashboard
+
+    AdminDashboard -->|Submit User Data| AddUserForm
+    AddUserForm -->|Successfully Added User| RedirectAdminSuccess
+
+    AdminDashboard -->|Submit Delete User Data| DeleteUserForm
+    DeleteUserForm -->|User Exists| DeleteUserLogic
+    DeleteUserLogic -->|Successfully Deleted User| RedirectAdminDeleteSuccess
+
+    DosenDashboard -->|Submit Nilai| InputUpdateNilaiForm
+    InputUpdateNilaiForm -->|Successfully Updated Nilai| RedirectDosenSuccess
+
+    AdminDashboard -->|Show Success/Error Message| DisplayModal
+    DosenDashboard -->|Show Success/Error Message| DisplayModal
+    DisplayModal -->|Close Modal| Start
